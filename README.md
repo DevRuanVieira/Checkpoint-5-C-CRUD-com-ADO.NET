@@ -63,8 +63,7 @@ ProdutosApp/
 ├── tests/
 │   └── ProdutosApp.Tests/          ← testes xUnit do repositório e do modelo
 └── docs/
-    ├── prints/                     ← capturas de tela das operações
-    └── ROTEIRO_VIDEO.md            ← roteiro para a apresentação de 3–5 min
+    └── prints/                     ← capturas de tela das operações
 ```
 
 **Separação de camadas:** a janela (`MainWindow`) recebe um `IProdutoRepository` e só chama métodos como
@@ -224,6 +223,10 @@ Cada operação gera uma linha em `logs/operacoes.log` (ao lado do executável):
 | Excluir | Lixeira |
 |---|---|
 | ![Excluir produto](docs/prints/05-excluir.png) | ![Lixeira](docs/prints/06-lixeira.png) |
+
+### Testes unitários
+
+![Testes unitários](docs/prints/07-testes.png)
 
 ---
 
