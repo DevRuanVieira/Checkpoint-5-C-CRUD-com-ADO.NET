@@ -1,10 +1,10 @@
 # Cadastro de Produtos — WPF + ADO.NET + SQLite
 
-Aplicação desktop em **C# / WPF** para cadastrar e gerenciar produtos.
-O acesso ao banco é feito com **ADO.NET puro** (`SqliteConnection`, `SqliteCommand`, `SqliteDataReader`), sem ORM,
+Aplicação desktop em **C# / WPF** para cadastrar e gerenciar produtos diversos.
+O acesso ao banco é feito com **ADO.NET puro** (`SqliteConnection`, `SqliteCommand`, `SqliteDataReader`),
 usando **comandos parametrizados** em todas as operações.
 
-> **Autores:** _Nome Sobrenome_ · _Nome Sobrenome_ (preencher)
+> **Autores:** Bruno Leão - RM555563 · Ruan Melo - 557599
 
 ---
 
