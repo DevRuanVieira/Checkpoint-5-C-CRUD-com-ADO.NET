@@ -4,7 +4,7 @@ Aplicação desktop em **C# / WPF** para cadastrar e gerenciar produtos diversos
 O acesso ao banco é feito com **ADO.NET puro** (`SqliteConnection`, `SqliteCommand`, `SqliteDataReader`),
 usando **comandos parametrizados** em todas as operações.
 
-> **Autores:** Bruno Leão - RM555563 · Ruan Melo - 557599
+> **Autores:** Bruno Leão - RM555563 · Ruan Melo - RM557599
 
 ---
 
