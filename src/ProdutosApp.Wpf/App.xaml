@@ -1,0 +1,127 @@
+<Application x:Class="ProdutosApp.Wpf.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             ShutdownMode="OnMainWindowClose"
+             Startup="Application_Startup"
+             Exit="Application_Exit"
+             DispatcherUnhandledException="Application_DispatcherUnhandledException">
+    <Application.Resources>
+
+        <!-- Paleta -->
+        <SolidColorBrush x:Key="CorFundo" Color="#F1F5F9"/>
+        <SolidColorBrush x:Key="CorMenu" Color="#1E293B"/>
+        <SolidColorBrush x:Key="CorMenuHover" Color="#334155"/>
+        <SolidColorBrush x:Key="CorDestaque" Color="#2563EB"/>
+        <SolidColorBrush x:Key="CorDestaqueHover" Color="#1D4ED8"/>
+        <SolidColorBrush x:Key="CorPerigo" Color="#DC2626"/>
+        <SolidColorBrush x:Key="CorTexto" Color="#0F172A"/>
+        <SolidColorBrush x:Key="CorTextoSuave" Color="#64748B"/>
+        <SolidColorBrush x:Key="CorBorda" Color="#CBD5E1"/>
+
+        <!-- Botões do menu lateral -->
+        <Style x:Key="BotaoMenu" TargetType="Button">
+            <Setter Property="Foreground" Value="#E2E8F0"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Padding" Value="12,10"/>
+            <Setter Property="Margin" Value="10,2"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="borda" Background="{TemplateBinding Background}"
+                                CornerRadius="6" Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="borda" Property="Background" Value="{StaticResource CorMenuHover}"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="borda" Property="Background" Value="#475569"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Número redondo dentro dos botões do menu -->
+        <Style x:Key="NumeroMenu" TargetType="Border">
+            <Setter Property="Width" Value="24"/>
+            <Setter Property="Height" Value="24"/>
+            <Setter Property="CornerRadius" Value="12"/>
+            <Setter Property="Background" Value="{StaticResource CorDestaque}"/>
+            <Setter Property="Margin" Value="0,0,12,0"/>
+        </Style>
+
+        <!-- Botão base (primário) -->
+        <Style x:Key="BotaoPrimario" TargetType="Button">
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Background" Value="{StaticResource CorDestaque}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource CorDestaque}"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Padding" Value="16,7"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="borda" Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="1"
+                                CornerRadius="6" Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="borda" Property="Opacity" Value="0.88"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="borda" Property="Opacity" Value="0.45"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="BotaoSecundario" TargetType="Button" BasedOn="{StaticResource BotaoPrimario}">
+            <Setter Property="Foreground" Value="{StaticResource CorTexto}"/>
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="BorderBrush" Value="{StaticResource CorBorda}"/>
+            <Setter Property="FontWeight" Value="Normal"/>
+        </Style>
+
+        <Style x:Key="BotaoPerigo" TargetType="Button" BasedOn="{StaticResource BotaoPrimario}">
+            <Setter Property="Background" Value="{StaticResource CorPerigo}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource CorPerigo}"/>
+        </Style>
+
+        <!-- Campos do formulário -->
+        <Style x:Key="Rotulo" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="{StaticResource CorTextoSuave}"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Margin" Value="0,10,0,4"/>
+        </Style>
+
+        <Style TargetType="TextBox">
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Padding" Value="6,5"/>
+            <Setter Property="BorderBrush" Value="{StaticResource CorBorda}"/>
+        </Style>
+
+        <Style TargetType="ComboBox">
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Padding" Value="6,5"/>
+        </Style>
+
+        <!-- Texto alinhado à direita nas colunas numéricas da grade -->
+        <Style x:Key="CelulaDireita" TargetType="TextBlock">
+            <Setter Property="HorizontalAlignment" Value="Right"/>
+            <Setter Property="Margin" Value="0,0,10,0"/>
+        </Style>
+
+    </Application.Resources>
+</Application>

@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- Biblioteca com o modelo (Produto), o acesso ao banco (Repository) e o log.
+       Não conhece nada da interface gráfica. -->
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>ProdutosApp.Core</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- Provedor ADO.NET oficial da Microsoft para SQLite -->
+    <PackageReference Include="Microsoft.Data.Sqlite" Version="8.0.11" />
+  </ItemGroup>
+
+</Project>

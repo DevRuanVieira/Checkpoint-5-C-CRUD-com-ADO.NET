@@ -1,0 +1,23 @@
+## .NET / Visual Studio
+bin/
+obj/
+.vs/
+*.user
+*.suo
+TestResults/
+*.rsuser
+
+## Rider / VS Code
+.idea/
+.vscode/
+
+## Banco e logs gerados em tempo de execução
+*.db
+*.db-shm
+*.db-wal
+logs/
+*.log
+
+## Sistema
+Thumbs.db
+.DS_Store

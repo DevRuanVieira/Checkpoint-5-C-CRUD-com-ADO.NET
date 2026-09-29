@@ -1,0 +1,208 @@
+<Window x:Class="ProdutosApp.Wpf.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Cadastro de Produtos"
+        Width="1180" Height="680" MinWidth="980" MinHeight="560"
+        WindowStartupLocation="CenterScreen"
+        Background="{StaticResource CorFundo}"
+        FontFamily="Segoe UI"
+        Closing="Window_Closing">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="240"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- ============ MENU LATERAL (opções 1 a 6) ============ -->
+        <Border Grid.Column="0" Background="{StaticResource CorMenu}">
+            <DockPanel LastChildFill="False">
+                <StackPanel DockPanel.Dock="Top" Margin="22,26,22,22">
+                    <TextBlock Text="Produtos" Foreground="White" FontSize="22" FontWeight="SemiBold"/>
+                    <TextBlock Text="ADO.NET + SQLite" Foreground="#94A3B8" FontSize="12" Margin="0,2,0,0"/>
+                </StackPanel>
+
+                <StackPanel DockPanel.Dock="Top">
+                    <Button Style="{StaticResource BotaoMenu}" Click="MenuInserir_Click" ToolTip="Cadastrar um novo produto">
+                        <StackPanel Orientation="Horizontal">
+                            <Border Style="{StaticResource NumeroMenu}"><TextBlock Text="1" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="SemiBold"/></Border>
+                            <TextBlock Text="Inserir produto" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+                    <Button Style="{StaticResource BotaoMenu}" Click="MenuListar_Click" ToolTip="Mostrar todos os produtos ativos">
+                        <StackPanel Orientation="Horizontal">
+                            <Border Style="{StaticResource NumeroMenu}"><TextBlock Text="2" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="SemiBold"/></Border>
+                            <TextBlock Text="Listar produtos" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+                    <Button Style="{StaticResource BotaoMenu}" Click="MenuBuscar_Click" ToolTip="Localizar um produto pelo ID">
+                        <StackPanel Orientation="Horizontal">
+                            <Border Style="{StaticResource NumeroMenu}"><TextBlock Text="3" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="SemiBold"/></Border>
+                            <TextBlock Text="Buscar produto por ID" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+                    <Button Style="{StaticResource BotaoMenu}" Click="MenuAtualizar_Click" ToolTip="Editar o produto selecionado (ou informe o ID)">
+                        <StackPanel Orientation="Horizontal">
+                            <Border Style="{StaticResource NumeroMenu}"><TextBlock Text="4" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="SemiBold"/></Border>
+                            <TextBlock Text="Atualizar produto" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+                    <Button Style="{StaticResource BotaoMenu}" Click="MenuExcluir_Click" ToolTip="Mover o produto selecionado para a lixeira">
+                        <StackPanel Orientation="Horizontal">
+                            <Border Style="{StaticResource NumeroMenu}"><TextBlock Text="5" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="SemiBold"/></Border>
+                            <TextBlock Text="Excluir produto" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+
+                <Button DockPanel.Dock="Bottom" Style="{StaticResource BotaoMenu}" Click="MenuSair_Click" Margin="10,2,10,18" ToolTip="Fechar a aplicação">
+                    <StackPanel Orientation="Horizontal">
+                        <Border Style="{StaticResource NumeroMenu}" Background="#475569"><TextBlock Text="6" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="SemiBold"/></Border>
+                        <TextBlock Text="Sair" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </Button>
+            </DockPanel>
+        </Border>
+
+        <!-- ============ CONTEÚDO ============ -->
+        <Grid Grid.Column="1" Margin="24,20,24,0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <!-- Cabeçalho: título, busca rápida, lixeira, exemplos -->
+            <Grid Grid.Row="0" Margin="0,0,0,16">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Grid.Column="0" VerticalAlignment="Center">
+                    <TextBlock x:Name="txtTituloLista" Text="Produtos cadastrados" FontSize="22" FontWeight="SemiBold" Foreground="{StaticResource CorTexto}"/>
+                    <TextBlock x:Name="txtContagem" Foreground="{StaticResource CorTextoSuave}" Margin="0,2,0,0"/>
+                </StackPanel>
+
+                <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                    <TextBlock Text="ID:" VerticalAlignment="Center" Margin="0,0,6,0" Foreground="{StaticResource CorTextoSuave}"/>
+                    <TextBox x:Name="txtBuscaId" Width="70" KeyDown="TxtBuscaId_KeyDown" ToolTip="Digite o ID e pressione Enter"/>
+                    <Button Content="Buscar" Style="{StaticResource BotaoSecundario}" Margin="6,0,0,0" Click="MenuBuscar_Click"/>
+                    <CheckBox x:Name="chkLixeira" Content="Ver lixeira" VerticalAlignment="Center" Margin="18,0,0,0" Click="ChkLixeira_Click"
+                              ToolTip="Mostra os produtos excluídos (soft delete)"/>
+                    <Button Content="Carregar exemplos" Style="{StaticResource BotaoSecundario}" Margin="14,0,0,0" Click="BtnExemplos_Click"
+                            ToolTip="Insere 5 produtos de exemplo em uma única transação"/>
+                </StackPanel>
+            </Grid>
+
+            <!-- Lista + formulário -->
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="330"/>
+                </Grid.ColumnDefinitions>
+
+                <Grid Grid.Column="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <DataGrid x:Name="dgProdutos" Grid.Row="0"
+                              AutoGenerateColumns="False" IsReadOnly="True"
+                              SelectionMode="Single" SelectionUnit="FullRow"
+                              CanUserAddRows="False" CanUserDeleteRows="False"
+                              HeadersVisibility="Column" GridLinesVisibility="Horizontal"
+                              HorizontalGridLinesBrush="#E2E8F0"
+                              RowHeight="32" FontSize="13"
+                              Background="White" RowBackground="White" AlternatingRowBackground="#F8FAFC"
+                              BorderBrush="#E2E8F0" BorderThickness="1"
+                              SelectionChanged="DgProdutos_SelectionChanged"
+                              MouseDoubleClick="DgProdutos_MouseDoubleClick">
+                        <DataGrid.ColumnHeaderStyle>
+                            <Style TargetType="DataGridColumnHeader">
+                                <Setter Property="Background" Value="#F8FAFC"/>
+                                <Setter Property="Foreground" Value="#475569"/>
+                                <Setter Property="FontWeight" Value="SemiBold"/>
+                                <Setter Property="Padding" Value="8,8"/>
+                                <Setter Property="BorderBrush" Value="#E2E8F0"/>
+                                <Setter Property="BorderThickness" Value="0,0,0,1"/>
+                            </Style>
+                        </DataGrid.ColumnHeaderStyle>
+                        <DataGrid.CellStyle>
+                            <Style TargetType="DataGridCell">
+                                <Setter Property="BorderThickness" Value="0"/>
+                                <Setter Property="Padding" Value="8,0"/>
+                                <Setter Property="VerticalContentAlignment" Value="Center"/>
+                            </Style>
+                        </DataGrid.CellStyle>
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="55"/>
+                            <DataGridTextColumn Header="Nome" Binding="{Binding Nome}" Width="*" MinWidth="140"/>
+                            <DataGridTextColumn Header="Categoria" Binding="{Binding Categoria}" Width="120"/>
+                            <DataGridTextColumn Header="Preço" Binding="{Binding Preco, StringFormat=C}" Width="100"
+                                                ElementStyle="{StaticResource CelulaDireita}"/>
+                            <DataGridTextColumn Header="Estoque" Binding="{Binding Estoque}" Width="75"
+                                                ElementStyle="{StaticResource CelulaDireita}"/>
+                            <DataGridTextColumn Header="Cadastro" Binding="{Binding DataCadastro, StringFormat='dd/MM/yyyy HH:mm'}" Width="120"/>
+                            <DataGridTextColumn x:Name="colExcluidoEm" Header="Excluído em" Visibility="Collapsed"
+                                                Binding="{Binding DataExclusao, StringFormat='dd/MM/yyyy HH:mm'}" Width="120"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                    <!-- Ações da lixeira (aparecem só no modo lixeira) -->
+                    <Border x:Name="barraLixeira" Grid.Row="1" Visibility="Collapsed" Margin="0,10,0,0"
+                            Background="#FEF2F2" BorderBrush="#FECACA" BorderThickness="1" CornerRadius="6" Padding="12,8">
+                        <DockPanel>
+                            <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
+                                <Button Content="Restaurar" Style="{StaticResource BotaoSecundario}" Click="BtnRestaurar_Click"/>
+                                <Button Content="Excluir definitivamente" Style="{StaticResource BotaoPerigo}" Margin="8,0,0,0" Click="BtnExcluirDefinitivo_Click"/>
+                            </StackPanel>
+                            <TextBlock Text="Produtos na lixeira podem ser restaurados ou apagados de vez." VerticalAlignment="Center"
+                                       Foreground="#991B1B" TextWrapping="Wrap"/>
+                        </DockPanel>
+                    </Border>
+                </Grid>
+
+                <!-- Formulário -->
+                <Border x:Name="bordaFormulario" Grid.Column="1" Margin="16,0,0,0" Padding="20"
+                        Background="White" CornerRadius="10" BorderBrush="#E2E8F0" BorderThickness="1"
+                        VerticalAlignment="Top">
+                    <StackPanel>
+                        <TextBlock x:Name="txtTituloFormulario" Text="Detalhes do produto" FontSize="17" FontWeight="SemiBold" Foreground="{StaticResource CorTexto}"/>
+                        <TextBlock x:Name="txtSubtituloFormulario" Foreground="{StaticResource CorTextoSuave}" TextWrapping="Wrap" Margin="0,4,0,6"/>
+
+                        <TextBlock Text="ID" Style="{StaticResource Rotulo}"/>
+                        <TextBox x:Name="txtId" IsReadOnly="True" IsTabStop="False" Background="#F1F5F9" Foreground="{StaticResource CorTextoSuave}"/>
+
+                        <StackPanel x:Name="painelCampos">
+                            <TextBlock Text="Nome *" Style="{StaticResource Rotulo}"/>
+                            <TextBox x:Name="txtNome" MaxLength="100"/>
+
+                            <TextBlock Text="Preço (R$) *" Style="{StaticResource Rotulo}"/>
+                            <TextBox x:Name="txtPreco" ToolTip="Exemplo: 19,90"/>
+
+                            <TextBlock Text="Estoque *" Style="{StaticResource Rotulo}"/>
+                            <TextBox x:Name="txtEstoque" ToolTip="Quantidade inteira, exemplo: 10"/>
+
+                            <TextBlock Text="Categoria *" Style="{StaticResource Rotulo}"/>
+                            <ComboBox x:Name="cmbCategoria" IsEditable="True" IsTextSearchEnabled="True"
+                                      ToolTip="Escolha uma categoria ou digite uma nova"/>
+                        </StackPanel>
+
+                        <StackPanel x:Name="painelBotoesFormulario" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,22,0,0">
+                            <Button Content="Cancelar" Style="{StaticResource BotaoSecundario}" Click="BtnCancelar_Click" IsCancel="True"/>
+                            <Button x:Name="btnSalvar" Content="Salvar" Style="{StaticResource BotaoPrimario}" Margin="8,0,0,0" Click="BtnSalvar_Click"/>
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+            </Grid>
+
+            <!-- Barra de status -->
+            <Border Grid.Row="2" Margin="0,12,0,12" Padding="12,8" Background="White" CornerRadius="6"
+                    BorderBrush="#E2E8F0" BorderThickness="1">
+                <TextBlock x:Name="txtStatus" Text="Pronto." Foreground="{StaticResource CorTextoSuave}" TextTrimming="CharacterEllipsis"/>
+            </Border>
+        </Grid>
+    </Grid>
+</Window>
