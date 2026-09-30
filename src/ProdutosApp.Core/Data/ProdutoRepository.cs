@@ -75,7 +75,9 @@ public class ProdutoRepository : IProdutoRepository
             {
                 comandoId.Transaction = transacao;
                 comandoId.CommandText = "SELECT last_insert_rowid();";
-                novoId = Convert.ToInt32(comandoId.ExecuteScalar(), CultureInfo.InvariantCulture);
+                using var leitorId = comandoId.ExecuteReader();
+                leitorId.Read();
+                novoId = leitorId.GetInt32(0);
             }
 
             transacao.Commit();
